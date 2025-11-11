@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Clip Player</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #f5f7fa, #d7e1ec);
+      color: #1c1c1c;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-bottom: 0.75rem;
+      font-size: clamp(1.8rem, 2.5vw, 2.75rem);
+    }
+
+    p {
+      max-width: 32rem;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    video {
+      width: min(90vw, 720px);
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Featured Clip</h1>
+    <p>
+      Use the controls below to watch the highlighted portion of the video. The playback begins at 1:00
+      and ends at 1:24 automatically.
+    </p>
+    <video id="clipPlayer" controls preload="metadata">
+      <source src="sample-video.mp4" type="video/mp4" />
+      Your browser does not support the HTML5 video tag.
+    </video>
+  </main>
+
+  <script>
+    (function () {
+      const START_TIME = 60; // seconds (1:00)
+      const END_TIME = 84; // seconds (1:24)
+      const player = document.getElementById("clipPlayer");
+
+      if (!player) return;
+
+      const seekToStart = () => {
+        if (player.currentTime < START_TIME || player.currentTime > END_TIME) {
+          player.currentTime = START_TIME;
+        }
+      };
+
+      player.addEventListener("loadedmetadata", () => {
+        seekToStart();
+        player.play().catch(() => {
+          // Autoplay might be blocked; controls remain available.
+        });
+      });
+
+      player.addEventListener("seeking", () => {
+        if (player.currentTime < START_TIME) {
+          player.currentTime = START_TIME;
+        }
+        if (player.currentTime > END_TIME) {
+          player.currentTime = END_TIME;
+        }
+      });
+
+      player.addEventListener("timeupdate", () => {
+        if (player.currentTime >= END_TIME) {
+          player.pause();
+          player.currentTime = START_TIME;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
