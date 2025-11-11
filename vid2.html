@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://player.vdocipher.com/v2/api.js"></script>
+  </head>
+  <body>
+    <iframe
+      id="vdo-player"
+      src="https://player.vdocipher.com/v2/?otp=YOUR_OTP&playbackInfo=YOUR_PLAYBACK_INFO&video=e19a1e1c5d37cc89dfe44e4badee1ff2"
+      frameborder="0"
+      allow="encrypted-media"
+      allowfullscreen
+      width="720"
+      height="405">
+    </iframe>
+
+    <script>
+      const iframe = document.getElementById('vdo-player');
+      const player = VdoPlayer.getInstance(iframe);
+
+      const clipStart = 10;  // seconds
+      const clipEnd = 18;    // seconds
+
+      player.addEventListener('load', () => {
+        // Jump to start point once player is ready
+        player.video.currentTime = clipStart;
+        player.video.play();
+
+        // Enforce playback limits
+        player.video.addEventListener('timeupdate', () => {
+          if (player.video.currentTime < clipStart) {
+            player.video.currentTime = clipStart;
+          }
+          if (player.video.currentTime > clipEnd) {
+            player.video.pause();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
