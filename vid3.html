@@ -1,15 +1,17 @@
 <iframe
   id="cf-player"
-  src="https://customer-0k9ld3ons4xebfgy.cloudflarestream.com/5358c8396c72734230a05c4f44cec851/iframe"
+  src="https://customer-<YOUR_ACCOUNT_HASH>.cloudflarestream.com/5358c8396c72734230a05c4f44cec851/iframe"
   style="border:none;width:100%;aspect-ratio:16/9;"
   allow="autoplay;encrypted-media;picture-in-picture"
   allowfullscreen>
 </iframe>
 
+<button id="replay" style="margin-top:10px;">Replay Clip</button>
+
 <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
 <script>
   const START = 60;  // seconds
-  const END = 63;   // seconds
+  const END = 120;   // seconds
   const player = Stream(document.getElementById('cf-player'));
 
   player.addEventListener('play', () => {
@@ -18,5 +20,10 @@
 
   player.addEventListener('timeupdate', () => {
     if (player.currentTime >= END) player.pause();
+  });
+
+  document.getElementById('replay').addEventListener('click', () => {
+    player.currentTime = START;
+    player.play();
   });
 </script>
