@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VdoCipher Range Playback Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://player.vdocipher.com/playerAssets/1.6.17/vdo.js" defer></script>
+    <script src="/player.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <h1>VdoCipher Playback (10s - 15s)</h1>
+      <p>
+        This demo fetches a one-time password (OTP) from a lightweight Node.js
+        proxy and limits playback of the requested video to the 10s - 15s window.
+      </p>
+      <section class="player-wrapper">
+        <div id="vdocipher-player" class="player"></div>
+        <div id="player-status" class="status" role="alert" aria-live="polite"></div>
+      </section>
+    </main>
+  </body>
+</html>
